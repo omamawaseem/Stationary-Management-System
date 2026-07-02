@@ -1,0 +1,145 @@
+﻿@model IEnumerable<Item>
+@{
+    ViewData["Title"] = "Browse Items";
+    
+}
+
+
+
+<div class="container-fluid px-4 py-4">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 mb-1"><i class="bi bi-box-seam me-2 text-primary"></i>Browse Items</h1>
+            <p class="text-dark">Filter and manage stationery items</p>
+        </div>
+    </div>
+
+    <!-- Filter Card -->
+    <div class="card border-0 shadow-sm mb-2 border-bottom bg-secondary text-white px-3 rounded">
+        <div class="card-body p-3">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <select asp-items="ViewBag.Brands"
+                                id="brandSelect"
+                                class="form-select">
+                            <option value="">All Brands</option>
+                        </select>
+                        <label>Brand</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <select id="categorySelect"
+                                class="form-select"
+                                asp-items="ViewBag.Categories">
+                            <option value="">All Categories</option>
+                        </select>
+                        <label>Category</label>
+                    </div>
+                </div>
+                <div class="col-md-4 text-end">
+                    <button class="btn btn-primary" onclick="resetFilters()">
+                        <i class="bi bi-arrow-counterclockwise me-2"></i>Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Items Table -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light sticky-top">
+                        <tr>
+                            <th class="ps-4">Item Name</th>
+                            <th>Category</th>
+                            <th>Brand</th>
+                            <th>Stock</th>
+                            <th>Price</th>
+                            <th class="pe-4 text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-medium">@item.ItemName</td>
+                                <td>
+                                    <span class="badge bg-success rounded-pill">
+                                        @item.Category?.CategoryName
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-primary rounded-pill">
+                                        @item.Category?.Brand?.BrandName
+                                    </span>
+                                </td>
+                                <td>
+                                    @{
+                                        var quantityClass = item.QuantityAvailable switch
+                                        {
+                                            > 20 => "text-success",
+                                            > 10 => "text-warning",
+                                            _ => "text-danger"
+                                        };
+                                    }
+                                    <span class="@quantityClass fw-bold">
+                                        <i class="bi bi-box me-2"></i>@item.QuantityAvailable
+                                    </span>
+                                </td>
+                                <td class="fw-bold">@item.Cost.ToString("C")</td>
+                                <td class="pe-4 text-end">
+                                    <a asp-action="CreateRequest"
+                                       asp-route-itemId="@item.ItemID"
+                                       class="btn btn-sm btn-primary">
+                                        <i class="bi bi-cart-plus me-2"></i>Request
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <i class="bi bi-search text-muted fs-1"></i>
+                    <p class="text-muted mt-3">No items found matching your criteria</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Add reset filters function
+        function resetFilters() {
+            $('#brandSelect').val('');
+            $('#categorySelect').val('');
+            window.location.href = window.location.pathname;
+        }
+        $(document).ready(function () {
+            $('#brandSelect, #categorySelect').change(function () {
+                const brandId = $('#brandSelect').val();
+                const categoryId = $('#categorySelect').val();
+
+                let queryParams = [];
+                if (brandId) queryParams.push(`brandId=${brandId}`);
+                if (categoryId) queryParams.push(`categoryId=${categoryId}`);
+
+                window.location.href = `/Employee/Browse?${queryParams.join('&')}`;
+            });
+
+            // Preselect filters from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            $('#brandSelect').val(urlParams.get('brandId') || '');
+            $('#categorySelect').val(urlParams.get('categoryId') || '');
+        });
+    </script>
+}

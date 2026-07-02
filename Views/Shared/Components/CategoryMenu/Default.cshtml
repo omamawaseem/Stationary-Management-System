@@ -1,0 +1,39 @@
+﻿@* Views/Shared/Components/CategoryMenu/Default.cshtml *@
+@model List<Brand>
+
+<div class="dropdown-menu" data-bs-auto-close="outside">
+    @foreach (var brand in Model)
+    {
+        <div class="dropdown-submenu position-relative">
+            <a class="dropdown-item dropdown-toggle" href="#"
+               data-bs-toggle="dropdown"
+               role="button"
+               aria-expanded="false">
+                @brand.BrandName
+            </a>
+            <div class="dropdown-menu">
+                @foreach (var category in brand.Categories)
+                {
+                    <a class="dropdown-item"
+                       href="@Url.Action("Browse", "Employee", new { categoryId = category.CategoryID })">
+                        @category.CategoryName
+                    </a>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .dropdown-submenu:hover .dropdown-menu {
+        display: block;
+        left: 100%;
+        top: 0;
+        margin-top: -1px;
+    }
+
+    .dropdown-submenu .dropdown-menu {
+        display: none;
+        position: absolute;
+    }
+</style>

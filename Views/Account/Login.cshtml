@@ -1,0 +1,253 @@
+﻿@model WebApplication1.Models.Employee
+@{
+    <title>@ViewData["Title"] - Stationery App</title>
+    Layout = "_Layout"; 
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link href="//cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <style>
+        body {
+            background: antiquewhite;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .login-card {
+            width: 400px;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transform: scale(1);
+            animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+        }
+
+        .login-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .login-subtitle {
+            color: #718096;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+            .form-group i {
+                position: absolute;
+                left: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #a0aec0;
+                transition: color 0.3s ease;
+            }
+
+            .form-group input {
+                padding-left: 3rem;
+                height: 3rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 0.75rem;
+                transition: all 0.3s ease;
+            }
+
+                .form-group input:focus {
+                    border-color: #667eea;
+                    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+                }
+
+                    .form-group input:focus + i {
+                        color: #667eea;
+                    }
+
+        .login-btn {
+            background: #667eea;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            float: right;
+            border: none;
+        }
+
+            .login-btn:hover {
+                background: #764ba2;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(118, 75, 162, 0.3);
+            }
+
+        /* Modified CSS for left-side positioning */
+        .password-toggle {
+            position: absolute;
+            left: 40px; /* Adjusted position */
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #a0aec0;
+            transition: color 0.3s ease;
+            z-index: 2;
+        }
+
+        .fa-lock {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            z-index: 2;
+        }
+
+        .password-input {
+            padding-left: 70px !important; /* Increased padding to accommodate both icons */
+        }
+
+        .password-toggle:hover {
+            color: #667eea;
+        }
+        @@keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@media (max-width: 480px) {
+            .login-card {
+                width: 90%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <partial name="_Notification" />
+
+    <div class="login-container">
+        <div class="login-card">
+            <h2 class="login-title">
+                <i class="fa-solid fa-pencil-ruler text-purple-600"></i>
+                HTM-Stationery
+            </h2>
+            <p class="login-subtitle">Sign in to manage stationery requests</p>
+
+            <form method="post" asp-controller="Account" asp-action="Login">
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <div class="form-group">
+                    <i class="fa-solid fa-id-badge"></i>
+                    <input type="number" name="employeeNumber" required
+                           class="form-control" placeholder="Employee ID">
+                    <span asp-validation-for="EmployeeNumber" class="text-danger small d-block mt-1"></span>
+                </div>
+
+                <div class="form-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" name="password" required
+                           class="form-control password-input"
+                           placeholder="Password"
+                           id="passwordField">
+                    <i class="fa-solid fa-eye password-toggle"
+                       id="togglePassword"
+                       onclick="togglePasswordVisibility()"></i>
+                    <span asp-validation-for="Password" class="text-danger small d-block mt-1"></span>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    Sign In <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="//cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Toastr JS -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        // Toastr configuration
+        toastr.options = {
+            positionClass: 'toast-top-right',
+            progressBar: true,
+            closeButton: true,
+            timeOut: 5000
+        };
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('passwordField');
+            const toggleIcon = document.getElementById('togglePassword');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        @if (TempData["Success"] != null)
+        {
+            <text>toastr.success("@TempData["Success"]"); </text>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <text>toastr.error("@TempData["Error"]"); </text>
+        }
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>

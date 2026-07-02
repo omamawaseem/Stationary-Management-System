@@ -1,0 +1,59 @@
+﻿@model Item
+
+@{
+    ViewData["Title"] = "Delete Item";
+}
+
+<partial name="_Notification" />
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg border-0" style="max-width: 700px; width: 100%;">
+        <div class="card-header bg-danger text-white py-3">
+            <h2 class="h4 mb-0 text-center"><i class="bi bi-trash3-fill me-2"></i>Delete Item</h2>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2 fs-4"></i>
+                <div class="fw-bold">
+                    You are about to permanently delete this item. This action cannot be undone!
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="border p-3 rounded">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-4 text-muted">Item Name</dt>
+                            <dd class="col-sm-8 fw-bold">@Model.ItemName</dd>
+
+                            <dt class="col-sm-4 text-muted">Category</dt>
+                            <dd class="col-sm-8">@Model.Category.CategoryName</dd>
+
+                            <dt class="col-sm-4 text-muted">Brand</dt>
+                            <dd class="col-sm-8">@Model.Category.Brand.BrandName</dd>
+
+                            <dt class="col-sm-4 text-muted">Unit Cost</dt>
+                            <dd class="col-sm-8">@Model.Cost.ToString("C")</dd>
+
+                            <dt class="col-sm-4 text-muted">Stock Quantity</dt>
+                            <dd class="col-sm-8">@Model.QuantityAvailable</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="ItemID" />
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left-circle me-2"></i>Back to List
+                    </a>
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash3-fill me-2"></i>Confirm Delete
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

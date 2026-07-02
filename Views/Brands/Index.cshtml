@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Brand>
+
+@{
+   
+    ViewData["Title"] = "Brands";
+}
+<partial name="_Notification" />
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold text-primary"><i class="bi bi-tags"></i> Brand Management</h2>
+        <a asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Add Brand
+        </a>
+    </div>
+
+    <div class="card shadow-lg border-0 rounded">
+        <div class="card-body p-4">
+            <table class="table table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="text-uppercase">Brand Name</th>
+                        <th class="text-uppercase">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@Html.DisplayFor(modelItem => item.BrandName)</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.BrandID" class="btn btn-sm btn-warning me-2">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.BrandID" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash3-fill"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

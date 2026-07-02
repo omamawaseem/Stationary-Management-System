@@ -1,0 +1,95 @@
+﻿@model Item
+
+@{
+    ViewData["Title"] = "Edit Item";
+}
+
+<partial name="_Notification" />
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg p-4 border-0" style="max-width: 700px; width: 100%;">
+        <div class="card-body">
+            <h2 class="text-primary text-center"><i class="bi bi-pencil-square"></i> Edit Item</h2>
+            <hr />
+
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                <input type="hidden" asp-for="ItemID" />
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label asp-for="ItemName" class="form-label fw-bold">Item Name</label>
+                            <input asp-for="ItemName" class="form-control" placeholder="Enter item name" />
+                            <span asp-validation-for="ItemName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label asp-for="Cost" class="form-label fw-bold">Cost</label>
+                            <input asp-for="Cost" class="form-control" placeholder="Enter cost" />
+                            <span asp-validation-for="Cost" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label asp-for="QuantityAvailable" class="form-label fw-bold">Quantity</label>
+                            <input asp-for="QuantityAvailable" class="form-control" placeholder="Enter quantity" />
+                            <span asp-validation-for="QuantityAvailable" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label asp-for="BrandID" class="form-label fw-bold">Brand</label>
+                            <select asp-for="BrandID" class="form-select" asp-items="@ViewBag.Brands">
+                                <option value="">-- Select Brand --</option>
+                            </select>
+                            <span asp-validation-for="BrandID" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="CategoryID" class="form-label fw-bold">Category</label>
+                    <select asp-for="CategoryID" class="form-select" data-val="true" data-val-required="The Category field is required">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="CategoryID" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-secondary btn-sm">
+                        <i class="bi bi-arrow-left"></i> Back to List
+                    </a>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="bi bi-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Html.Partial("_ValidationScriptsPartial")
+
+    <script>
+        $(document).ready(function () {
+            $('#BrandID').change(function () {
+                var brandId = $(this).val();
+                $('#CategoryID').empty().append('<option value="">-- Select Category --</option>');
+
+                if (brandId) {
+                    $.getJSON('/Items/GetCategoriesByBrand', { brandId: brandId }, function (data) {
+                        $.each(data, function (index, item) {
+                            $('#CategoryID').append($('<option></option>').val(item.categoryID).text(item.categoryName));
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+}

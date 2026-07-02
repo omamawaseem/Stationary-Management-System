@@ -1,0 +1,21 @@
+﻿@model WebApplication1.Models.Request
+@{
+    ViewData["Title"] = "Approve Request";
+}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            Approve Request
+        </div>
+        <div class="card-body">
+            <p class="card-text">
+                Are you sure you want to approve the request for
+                <strong>@Model.Item?.ItemName</strong>?
+            </p>
+            <form asp-action="ApproveRequestConfirm" asp-route-id="@Model.RequestID" method="post">
+                <button type="submit" class="btn btn-success me-2">Approve</button>
+                <a asp-action="Dashboard" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

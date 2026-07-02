@@ -1,0 +1,39 @@
+﻿@model WebApplication1.Models.Request
+
+@{
+    ViewData["Title"] = "Cancel Request";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            <h3>Cancel Request</h3>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Item Name:</dt>
+                <dd class="col-sm-9">@Model.Item.ItemName</dd>
+
+                <dt class="col-sm-3">Brand:</dt>
+                <dd class="col-sm-9">@Model.Item.Category.Brand.BrandName</dd>
+
+                <dt class="col-sm-3">Category:</dt>
+                <dd class="col-sm-9">@Model.Item.Category.CategoryName</dd>
+
+                <dt class="col-sm-3">Quantity Requested:</dt>
+                <dd class="col-sm-9">@Model.QuantityRequested</dd>
+
+                <dt class="col-sm-3">Needed Date:</dt>
+                <dd class="col-sm-9">@Model.NeededDate.ToShortDateString()</dd>
+            </dl>
+
+            <form asp-action="CancelRequest">
+                <input type="hidden" asp-for="RequestID" />
+                <div class="form-group">
+                    <input type="submit" value="Confirm Cancel" class="btn btn-danger" />
+                    <a asp-action="Dashboard" class="btn btn-secondary">Back to Dashboard</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

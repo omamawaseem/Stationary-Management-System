@@ -1,0 +1,156 @@
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: antiquewhite;
+}
+
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+
+/* Navbar Styling */
+.navbar-custom {
+    background: linear-gradient(45deg, #343a40, #212529);
+    border-bottom: 3px solid #17a2b8;
+    padding: 6px 0;
+}
+
+.navbar-brand {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #17a2b8 !important;
+}
+
+    .navbar-brand i {
+        margin-right: 6px;
+    }
+
+.navbar-nav .nav-item {
+    margin: 0 5px;
+}
+
+.nav-link {
+    font-size: 0.6rem;
+    color: white !important;
+    transition: 0.3s;
+    padding: 8px 12px;
+}
+
+    .nav-link:hover {
+        color: #17a2b8 !important;
+    }
+
+/* Centering navbar items */
+.navbar-collapse {
+    justify-content: center;
+}
+
+/* Profile Dropdown */
+.profile-dropdown {
+    min-width: 220px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+    .profile-dropdown .dropdown-header {
+        font-weight: bold;
+        text-align: center;
+        background: #17a2b8;
+        color: white;
+        padding: 8px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .profile-dropdown a {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        color: #333;
+        transition: 0.3s;
+    }
+
+        .profile-dropdown a:hover {
+            background: #f8f9fa;
+            text-decoration: none;
+            color: #17a2b8;
+        }
+
+    .profile-dropdown i {
+        margin-right: 10px;
+    }
+/* Table Optimizations */
+.table td, .table th {
+    padding: 0.75rem;
+    white-space: nowrap;
+}
+
+/* Action Button Spacing */
+.action-buttons a {
+    margin-right: 5px;
+}
+
+/* Role Badge Styling */
+.role-badge {
+    font-size: 1rem; /* Increased font size */
+    padding: 5px 10px;
+}
+
+/* Compact Table Layout */
+.table-responsive {
+    overflow-x: auto;
+}
+.role-badge {
+    display: block;
+    text-align: center;
+    background: #e9ecef;
+    padding: 5px;
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: bold;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+/* Toastr Styling (Applied Only for Authenticated Pages) */
+.toast-container-dashboard {
+    top: 60px !important;
+    right: 20px;
+    z-index: 1050;
+}
+    /* Position submenus to the right of parent items */
+    .dropdown-menu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -0.5rem;
+    margin-left: 0.1rem;
+}
+
+/* Ensure parent dropdowns can position submenus correctly */
+.dropdown-menu li {
+    position: relative;
+}
+
+.dropdown-menu .dropend {
+    position: relative;
+}
+.profile-btn {
+    min-width: 160px; /* Ensures buttons stay wide enough */
+    text-align: center; /* Centers text properly */
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+

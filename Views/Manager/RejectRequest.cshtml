@@ -1,0 +1,21 @@
+﻿@model WebApplication1.Models.Request
+@{
+    ViewData["Title"] = "Reject Request";
+}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            Reject Request
+        </div>
+        <div class="card-body">
+            <p class="card-text">
+                Are you sure you want to reject the request for
+                <strong>@Model.Item?.ItemName</strong>?
+            </p>
+            <form asp-action="RejectRequestConfirm" asp-route-id="@Model.RequestID" method="post">
+                <button type="submit" class="btn btn-danger me-2">Reject</button>
+                <a asp-action="Dashboard" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
